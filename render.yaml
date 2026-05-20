@@ -16,7 +16,7 @@ services:
     plan: starter        # Render's $7/mo always-on plan
     region: frankfurt    # closest EU region to the UK
     branch: main
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /api/stats
     autoDeploy: true
@@ -25,6 +25,8 @@ services:
         value: "20"
       - key: NODE_ENV
         value: production
+      - key: NPM_CONFIG_PRODUCTION
+        value: "false"
       - key: PORT
         value: 10000
       - key: DATABASE_PATH
