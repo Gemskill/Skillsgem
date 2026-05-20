@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.vite/
+
+# Live SQLite database files — never commit; these change as the app runs.
+# seed.db is committed (it's the starting snapshot for new deploys).
+data.db
+data.db-shm
+data.db-wal
+data.db-journal
+
+.env
+.env.*
+!.env.example
+
+*.log
+.DS_Store

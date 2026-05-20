@@ -1,0 +1,35 @@
+# Render Blueprint for Skillsgem
+# https://render.com/docs/blueprint-spec
+#
+# When you connect this repo to Render, it reads this file and sets up:
+#   - one Node.js web service running the app
+#   - a 1 GB persistent disk mounted at /data, where the SQLite database lives
+#   - the ADMIN_TOKEN environment variable (Render will prompt you to set it)
+#
+# After first deploy, the app copies the bundled seed.db into /data/data.db
+# so your site starts with all 216 services already loaded.
+
+services:
+  - type: web
+    name: skillsgem
+    runtime: node
+    plan: starter        # Render's $7/mo always-on plan
+    region: frankfurt    # closest EU region to the UK
+    branch: main
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/stats
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_PATH
+        value: /data/data.db
+      - key: ADMIN_TOKEN
+        sync: false      # Render will prompt you to enter a secret value
+    disk:
+      name: skillsgem-data
+      mountPath: /data
+      sizeGB: 1
